@@ -1,4 +1,4 @@
-fetch(chrome.runtime.getURL("blocked_domains.json"))
+fetch(chrome.runtime.getURL("blacklist.json"))
   .then(res => res.json())
   .then(data => {
     const rules = data.domains.map((domain, index) => ({
@@ -8,7 +8,7 @@ fetch(chrome.runtime.getURL("blocked_domains.json"))
       condition: {
         urlFilter: `${domain}`
       }
-    }));
+    }))
 
     const resourcesRules = data.resources.map((resource, index) => ({
       id: index + 1001,
@@ -17,29 +17,29 @@ fetch(chrome.runtime.getURL("blocked_domains.json"))
       condition: {
         urlFilter: resource
       }
-    }));
+    }))
 
-    rules.push(...resourcesRules);
+    rules.push(...resourcesRules)
 
     chrome.declarativeNetRequest.updateDynamicRules({
       removeRuleIds: rules.map(r => r.id),
       addRules: rules
-    });
-  });
+    })
+  })
 
 chrome.webNavigation.onCommitted.addListener(
   async function(_) {
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
-    const url = tab.url
+    let css = ''
 
-    let css
+    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
+    const url = tab?.url ?? ''
 
     if (url.includes('komiinform.ru')) {
-      css = '#header, .left-adv, .mainContent .text-right + p { display: none !important }'
+      css += '#header, .left-adv, .mainContent .text-right + p { display: none !important }'
     } else if (url.includes('pg11.ru')) {
-      css = '#__next > div + div > div, #footer + div, .contentRightStretchBanner140 { display: none }'
+      css += '#__next > div + div > div:is(:first-child), #footer + div, .contentRightStretchBanner140, .contentRightMainBanner { display: none }'
     } else if (url.includes('komionline.ru')) {
-      css = '.adv-side-left, .adv-side-right, .adv, .adv-row, .sape-links, #slinksBlock { display: none }'
+      css += '.adv-side-left, .adv-side-right, .adv, .adv-row, .sape-links, #slinksBlock { display: none }'
     }
 
     chrome.scripting.insertCSS({
@@ -47,4 +47,4 @@ chrome.webNavigation.onCommitted.addListener(
       css: css,
     })
   }
-);
+)

@@ -1,0 +1,48 @@
+{
+  "domains": [
+    "yandex.ru/ads/system",
+    "an.yandex.ru/system",
+    "pg11.ru/userfiles/b",
+    "pg11.ru/api/banner",
+    "komionline.ru/adserver",
+    "24smi.net",
+    "adfinity.pro",
+    "adhigh.net",
+    "adriver.ru",
+    "adx.com.ru",
+    "aidata.io",
+    "betweendigital.com",
+    "buzzoola.com",
+    "da.cdnet.io",
+    "digitaltarget.ru",
+    "directadvert.ru",
+    "giraff.io",
+    "gnezdo.ru",
+    "kimberlite.io",
+    "mediametrics.ru",
+    "mediatoday.ru",
+    "mradx.net",
+    "newrotatormarch23.bid",
+    "news.2xclick.ru",
+    "otm-r.com",
+    "programmatica.com",
+    "sparrow.ru",
+    "ssp-rtb.sape.ru",
+    "st-ok.cdn-vk.ru",
+    "stbid.ru",
+    "svk-native.ru",
+    "traffaret.com",
+    "veonadx.com",
+    "viadata.store",
+    "videonow.ru"
+  ],
+  "resources": [
+    "https://komiinform.ru/assets/604656ee/banners.js"
+  ],
+  "graylist": [
+    "vk.com",
+    "vkvideo.ru",
+    "ok.ru",
+    "okcdn.ru"
+  ]
+}
