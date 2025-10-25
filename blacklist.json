@@ -28,21 +28,14 @@
     "programmatica.com",
     "sparrow.ru",
     "ssp-rtb.sape.ru",
-    "st-ok.cdn-vk.ru",
     "stbid.ru",
     "svk-native.ru",
     "traffaret.com",
     "veonadx.com",
     "viadata.store",
-    "videonow.ru"
+    "ads.vk.com"
   ],
   "resources": [
     "https://komiinform.ru/assets/604656ee/banners.js"
-  ],
-  "graylist": [
-    "vk.com",
-    "vkvideo.ru",
-    "ok.ru",
-    "okcdn.ru"
   ]
 }
