@@ -33,9 +33,14 @@
     "traffaret.com",
     "veonadx.com",
     "viadata.store",
-    "ads.vk.com"
+    "ads.vk.com",
+    "mpsuadv.ru",
+    "ad.mail.ru",
+    "ssp-rtb.sape.ru"
   ],
   "resources": [
-    "https://komiinform.ru/assets/604656ee/banners.js"
+    "https://komiinform.ru/assets/604656ee/banners.js",
+    "https://gencit.info/get_ads.php",
+    "https://yastatic.net/pcode/adfox/loader.js"
   ]
 }
