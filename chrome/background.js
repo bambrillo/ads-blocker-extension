@@ -44,6 +44,8 @@ function touchStyles(url, tabId) {
     css += '.adv-side-left, .adv-side-right, .adv, .adv-row, .sape-links, #slinksBlock { display: none }'
   } else if (url.includes('mail.yandex.ru')) {
     css += '[data-testid="page-layout_right-column_container"], [data-testid="content-header_container"] > div:nth-child(3), [data-testid="page-layout_right-column_loading-indicator"] { display: none }'
+  } else if (url.includes('bnkomi.ru')) {
+    css += '.modBanners { display: none }'
   }
 
   chrome.scripting.insertCSS({
