@@ -1,50 +1,67 @@
-fetch(chrome.runtime.getURL("blacklist.json"))
-  .then(res => res.json())
-  .then(data => {
-    const rules = data.domains.map((domain, index) => ({
-      id: index + 1,
-      priority: 1,
-      action: { type: "block" },
-      condition: {
-        urlFilter: `${domain}`
-      }
-    }))
+function filterResources(url) {
+  const targetUrls = ['komiinform.ru', 'pg11.ru', 'komionline.ru', 'bnkomi.ru', 'rutube.ru', 'emily-in-paris.ru', 'mail.yandex.ru']
 
-    const resourcesRules = data.resources.map((resource, index) => ({
-      id: index + 1001,
-      priority: 1,
-      action: { type: "block" },
-      condition: {
-        urlFilter: resource
-      }
-    }))
+  if (targetUrls.some(target => url.includes(target))) {
+    fetch(chrome.runtime.getURL("blacklist.json"))
+      .then(res => res.json())
+      .then(data => {
+        const rules = data.domains.map((domain, index) => ({
+          id: index + 1,
+          priority: 1,
+          action: { type: "block" },
+          condition: {
+            urlFilter: `${domain}`
+          }
+        }))
 
-    rules.push(...resourcesRules)
+        const resourcesRules = data.resources.map((resource, index) => ({
+          id: index + 1001,
+          priority: 1,
+          action: { type: "block" },
+          condition: {
+            urlFilter: resource
+          }
+        }))
 
-    chrome.declarativeNetRequest.updateDynamicRules({
-      removeRuleIds: rules.map(r => r.id),
-      addRules: rules
-    })
+        rules.push(...resourcesRules)
+
+        chrome.declarativeNetRequest.updateDynamicRules({
+          removeRuleIds: rules.map(r => r.id),
+          addRules: rules
+        })
+      })
+  }
+}
+
+function touchStyles(url, tabId) {
+  let css = ''
+
+  if (url.includes('komiinform.ru')) {
+      css += '#header, .left-adv, .mainContent .text-right + p, .top-adv-white, .media { display: none !important } body .cookies-container { z-index: 9 }'
+  } else if (url.includes('pg11.ru')) {
+    css += '#__next > div + div > div:is(:first-child), #footer + div, .contentRightStretchBanner140, .contentRightMainBanner { display: none }'
+  } else if (url.includes('komionline.ru')) {
+    css += '.adv-side-left, .adv-side-right, .adv, .adv-row, .sape-links, #slinksBlock { display: none }'
+  } else if (url.includes('mail.yandex.ru')) {
+    css += '[data-testid="page-layout_right-column_container"], [data-testid="content-header_container"] > div:nth-child(3), [data-testid="page-layout_right-column_loading-indicator"] { display: none }'
+  }
+
+  chrome.scripting.insertCSS({
+    target: { tabId },
+    css: css,
   })
+}
 
 chrome.webNavigation.onCommitted.addListener(
   async function(_) {
-    let css = ''
+    try {
+      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
+      const url = tab?.url ?? ''
 
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
-    const url = tab?.url ?? ''
-
-    if (url.includes('komiinform.ru')) {
-      css += '#header, .left-adv, .mainContent .text-right + p { display: none !important }'
-    } else if (url.includes('pg11.ru')) {
-      css += '#__next > div + div > div:is(:first-child), #footer + div, .contentRightStretchBanner140, .contentRightMainBanner { display: none }'
-    } else if (url.includes('komionline.ru')) {
-      css += '.adv-side-left, .adv-side-right, .adv, .adv-row, .sape-links, #slinksBlock { display: none }'
+      filterResources(url)
+      touchStyles(url, tab.id)
+    } catch (err) {
+      console.error(err)
     }
-
-    chrome.scripting.insertCSS({
-      target: { tabId: tab.id },
-      css: css,
-    })
   }
 )
