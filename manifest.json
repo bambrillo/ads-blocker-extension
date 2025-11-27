@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "dzeneye",
-  "version": "1.0",
+  "name": "Ме видзӧда юӧръяс",
+  "version": "1.0.1",
   "description": "Adblocker for news sites of Komi republic",
   "permissions": [
     "declarativeNetRequest",
@@ -9,6 +9,7 @@
     "storage",
     "webNavigation",
     "tabs",
+    "activeTab",
     "scripting"
   ],
   "host_permissions": ["<all_urls>"],
@@ -21,6 +22,6 @@
     "128": "icons/icon-128.png"
   },
   "action": {
-    "default_title": "dzen eye"
+    "default_title": "Ме видзӧда юӧръяс"
   }
 }
